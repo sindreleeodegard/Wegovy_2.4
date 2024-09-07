@@ -54,7 +54,8 @@
             background-color: #7a6aa9;
             cursor: pointer;
             border: 1px solid #000;
-            margin-top: -6px; /* Align thumb vertically with track */
+            margin-top: -6px;
+            /* Align thumb vertically with track */
         }
 
         input[type="range"]::-moz-range-thumb {
@@ -120,11 +121,17 @@
         <div class="circle" id="doseDisplay">0 mg</div>
         <div class="slider-container">
             <span>0</span>
-            <input type="range" id="doseSlider" min="0" max="2.4" step="0.1" value="0" oninput="updateDose()">
+            <input type="range" id="doseSlider" min="0" max="2.4" step="0.03333333333" value="0" oninput="updateDose()">
             <span>2.4</span>
         </div>
         <div class="circle" id="clickDisplay">0 klikk</div>
         <h2>Antall klikk</h2>
+        <!-- Tekst som viser hvor mange klikk som er igjen -->
+        <p id="remainingClicksText">Totalt antall klikk på Wegovy 2.4 mg pennen er 288 pluss 2 luftklikk.</p>
+        <p>Har du brukt mange klikk allerede? 
+            <input type="number" id="usedClicks" min="0" max="290" value="0" oninput="updateDose()">
+        </p>
+        <p id="clicksLeft">Du har nå 290 klikk igjen på pennen.</p>
     </div>
 
     <script>
@@ -136,6 +143,15 @@
             doseDisplay.textContent = sliderValue.toFixed(2) + ' mg';
             var clicks = Math.round(sliderValue / 0.03333333333);
             clickDisplay.textContent = clicks + ' klikk';
+
+            // Beregn antall brukte klikk fra input
+            var usedClicksInput = document.getElementById('usedClicks').value;
+            var usedClicks = usedClicksInput ? parseInt(usedClicksInput) : 0;
+
+            // Beregn antall klikk som er igjen
+            var remainingClicks = 290 - clicks - usedClicks;
+            var remainingClicksText = document.getElementById('clicksLeft');
+            remainingClicksText.textContent = "Du har nå " + remainingClicks + " klikk igjen på pennen.";
         }
     </script>
 </body>
